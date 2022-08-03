@@ -19,14 +19,11 @@ func main() {
 	password := flag.String("password", "root", "the database password")
 	schema := flag.String("schema", "", "the database schema")
 	table := flag.String("table", "*", "the table schema，multiple tables ',' split. ")
-	serviceName := flag.String("service_name", *schema, "the protobuf service name , defaults to the database schema.")
-	packageName := flag.String("package", *schema, "the protocol buffer package. defaults to the database schema.")
-	goPackageName := flag.String("go_package", "", "the protocol buffer go_package. defaults to the database schema.")
 	ignoreTableStr := flag.String("ignore_tables", "", "a comma spaced list of tables to ignore")
 
 	flag.Parse()
 
-	if *schema == ""{
+	if *schema == "" {
 		fmt.Println(" - please input the database schema ")
 		return
 	}
@@ -41,7 +38,7 @@ func main() {
 
 	ignoreTables := strings.Split(*ignoreTableStr, ",")
 
-	s, err := core.GenerateSchema(db, *table,ignoreTables,*serviceName, *goPackageName, *packageName )
+	s, err := core.GenerateSchema(db, *table, ignoreTables)
 
 	if nil != err {
 		log.Fatal(err)
